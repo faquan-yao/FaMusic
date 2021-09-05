@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">FaMusic</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="app_name">姚记云音乐</string>
+    <string name="title_activity_home">姚记云音乐</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -9,4 +9,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="home_login">立即登陆</string>
+    <string name="home_login_tip">登陆姚记云音乐</string>
+    <string name="home_login_tip_2">手机电脑多端同步，尽享海量高品质音乐</string>
 </resources>
