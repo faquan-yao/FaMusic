@@ -34,7 +34,7 @@ public class CommonOkHttpClient {
             @NotNull
             @Override
             public Response intercept(@NotNull Chain chain) throws IOException {
-                Request request = chain.request().newBuilder().addHeader("User-Agent", "Fa-Mobile").build();
+                Request request = chain.request().newBuilder().addHeader("User-Agent", "Imooc-Mobile").build();
                 return chain.proceed(request);
             }
         });

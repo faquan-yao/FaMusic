@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".HomeActivity">
+    tools:context=".view.home.HomeActivity">
     <!-- 存放内容区 -->
     <RelativeLayout
         android:layout_width="match_parent"

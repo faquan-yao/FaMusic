@@ -1,17 +1,25 @@
-package com.yaofaquan.famusic;
+package com.yaofaquan.famusic.view.home;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.yaofaquan.famusic.R;
 import com.yaofaquan.famusic.model.CHANNEL;
 import com.yaofaquan.famusic.view.home.adpater.HomePagerAdapter;
+import com.yaofaquan.famusic.view.login.LoginActivity;
+import com.yaofaquan.famusic.view.login.LoginEvent;
+import com.yaofaquan.famusic.view.login.UserManager;
 import com.yaofaquan.lib_common_ui.base.BaseActivity;
+import com.yaofaquan.lib_image_loader.app.ImageLoaderManager;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -20,6 +28,10 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNav
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
@@ -35,13 +47,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private View mSearchView;
     private ViewPager mVewPager;
     private HomePagerAdapter mAdapter;
+    private LinearLayout mUnLoggingLayout;
+    private ImageView mPhotoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_home);
         initView();
         initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initData() {
@@ -57,6 +78,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mAdapter = new HomePagerAdapter(getSupportFragmentManager(), CHANNELS);
         mVewPager.setAdapter(mAdapter);
         initMagicIndicator();
+
+        //登录相关的UI
+        mUnLoggingLayout = findViewById(R.id.unloggin_layout);
+        mUnLoggingLayout.setOnClickListener(this);
+        mPhotoView = findViewById(R.id.avatr_view);
     }
 
     private void initMagicIndicator() {
@@ -98,6 +124,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.unloggin_layout:
+                if (!UserManager.getInstance().hasLogin()) {
+                    LoginActivity.start(this);
+                } else {
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                }
+                break;
+        }
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginEvent(LoginEvent event) {
+        mUnLoggingLayout.setVisibility(View.GONE);
+        mPhotoView.setVisibility(View.VISIBLE);
+        ImageLoaderManager.getInstance()
+                .displayImageForCircle(mPhotoView, UserManager.getInstance().getUser().data.photoUrl);
     }
 }

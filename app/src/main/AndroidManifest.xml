@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yaofaquan.famusic">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_fa"
@@ -10,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FaMusic">
         <activity
-            android:name=".HomeActivity"
+            android:name=".view.home.HomeActivity"
             android:label="@string/title_activity_home"
             android:exported="true">
             <intent-filter>
@@ -19,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.login.LoginActivity" />
     </application>
 
 </manifest>
