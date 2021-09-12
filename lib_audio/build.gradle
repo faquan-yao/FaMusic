@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'org.greenrobot.greendao'
 }
 
 android {
@@ -32,7 +33,22 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
+    implementation 'org.greenrobot:greendao:3.3.0'
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+    compileOnly 'com.google.android.material:material:1.2.1'
+    compileOnly 'org.greenrobot:eventbus:3.1.1'
+    compileOnly 'io.reactivex.rxjava2:rxjava:2.2.9'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    compileOnly project(':lib_image_loader')
+    compileOnly project(':lib_common_ui')
+    compileOnly project(':lib_share')
+}
+
+greendao {
+    schemaVersion 1
+    daoPackage 'com.yaofaquan.lib_audio.mediaplayer.db'
 }
