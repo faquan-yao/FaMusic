@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:id="@+id/divider"
+        android:background="#dddddd"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/content_view"
+        android:layout_below="@id/divider"
+        android:paddingStart="5dp"
+        android:paddingTop="5dp">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/album_view"
+            android:scaleType="fitXY"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/album_view"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/audio_name_view"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:text="成都"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/audio_album_view"
+                android:textColor="#999999"
+                android:textSize="12sp"
+                android:text="赵雷"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/play_view"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/note_btn_play_white"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/show_list_view"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="25dp"
+                android:src="@mipmap/audio_black_cat"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
