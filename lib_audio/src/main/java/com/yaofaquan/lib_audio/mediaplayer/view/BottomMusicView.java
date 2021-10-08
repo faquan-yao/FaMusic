@@ -1,6 +1,7 @@
 package com.yaofaquan.lib_audio.mediaplayer.view;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -67,7 +68,7 @@ public class BottomMusicView extends RelativeLayout {
         rootView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
+                MusicPlayerActivity.start((Activity)mContext);
             }
         });
         mLeftView = rootView.findViewById(R.id.album_view);

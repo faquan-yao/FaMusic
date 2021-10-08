@@ -1,5 +1,14 @@
 package com.yaofaquan.lib_audio.mediaplayer.core;
 
+import android.content.ContentUris;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.util.Log;
+
+import com.yaofaquan.lib_audio.app.AudioHelper;
+import com.yaofaquan.lib_audio.mediaplayer.db.GreenDaoHelper;
+import com.yaofaquan.lib_audio.mediaplayer.events.AudioFavouriteEvent;
 import com.yaofaquan.lib_audio.mediaplayer.model.AudioBean;
 
 import org.greenrobot.eventbus.EventBus;
@@ -11,6 +20,8 @@ import java.util.Random;
  * 控制播放逻辑
  */
 public class AudioController {
+
+    private final static String TAG = "AudioController";
 
     public enum PlayMode {
         LOOP,
@@ -36,6 +47,39 @@ public class AudioController {
         mQueue = new ArrayList<>();
         mQueueIndex = 0;
         mPlayMode = PlayMode.LOOP;
+
+        getLocalMusicResources();
+    }
+
+    private void getLocalMusicResources() {
+        Uri albumArtUri = Uri.parse("content://media/external/audio/albumart");
+        Cursor cursor = AudioHelper.getContext().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                , null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        if (cursor != null) {
+            Log.d(TAG, "Count = " + cursor.getCount());
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
+                long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
+                String singer = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
+                String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+                int duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
+                long albumId = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
+                String albumInfo = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
+
+                AudioBean bean = new AudioBean();
+                bean.name = name;
+                bean.id = Long.toString(id);
+                bean.author = singer;
+                bean.mUrl = path;
+                bean.totalTime = Integer.toString(duration);
+                bean.album = Long.toString(albumId);
+                bean.albumInfo = albumInfo;
+                Uri uri = ContentUris.withAppendedId(albumArtUri, albumId);
+                bean.albumPic = uri.toString();
+                Log.d(TAG, "Add audio bean " + bean.toString());
+                mQueue.add(bean);
+            }
+        }
     }
 
     public ArrayList<AudioBean> getQueue() {
@@ -67,7 +111,7 @@ public class AudioController {
         }
     }
 
-    private void setPlayIndex(int query) {
+    public void setPlayIndex(int query) {
         mQueueIndex = query;
         mAudioPlayer.load(getNextPlaying());
     }
@@ -105,7 +149,7 @@ public class AudioController {
         mAudioPlayer.load(bean);
     }
 
-    private AudioBean getNowPlaying() {
+    public AudioBean getNowPlaying() {
         if (mQueue != null && !mQueue.isEmpty() && mQueueIndex >= 0 && mQueueIndex < mQueue.size()) {
             return mQueue.get(mQueueIndex);
         } else {
@@ -173,10 +217,20 @@ public class AudioController {
     }
 
     private boolean isPauseState() {
-        return false;
+        return mAudioPlayer.isPauseState();
     }
 
-    private boolean isStartState() {
-        return false;
+    public boolean isStartState() {
+        return mAudioPlayer.isStartState();
+    }
+
+    public void changeFavouriteStatus() {
+        if (null != GreenDaoHelper.selectFavourite(getNextPlaying())) {
+            GreenDaoHelper.removeFavourite(getNextPlaying());
+            EventBus.getDefault().post(new AudioFavouriteEvent(false));
+        } else {
+            GreenDaoHelper.addFavourite(getNextPlaying());
+            EventBus.getDefault().post(new AudioFavouriteEvent(true));
+        }
     }
 }

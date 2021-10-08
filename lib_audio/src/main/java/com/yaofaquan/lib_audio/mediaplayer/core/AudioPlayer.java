@@ -57,7 +57,7 @@ public class AudioPlayer implements MediaPlayer.OnCompletionListener,
 
     private void init() {
         mMediaPlayer = new CustomMediaPlayer();
-        mMediaPlayer.setWakeMode(null, PowerManager.PARTIAL_WAKE_LOCK);
+        mMediaPlayer.setWakeMode(AudioHelper.getContext(), PowerManager.PARTIAL_WAKE_LOCK);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setOnCompletionListener(this);
         mMediaPlayer.setOnPreparedListener(this);
@@ -205,5 +205,13 @@ public class AudioPlayer implements MediaPlayer.OnCompletionListener,
         } else {
             return CustomMediaPlayer.Status.STOPPED;
         }
+    }
+
+    public boolean isPauseState() {
+        return mMediaPlayer.getState() == CustomMediaPlayer.Status.PAUSED;
+    }
+
+    public boolean isStartState() {
+        return mMediaPlayer.getState() == CustomMediaPlayer.Status.STARTED;
     }
 }

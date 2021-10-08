@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -71,9 +72,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     private void initView() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        mToggleView = findViewById(R.id.title_layout);
+        mToggleView = findViewById(R.id.toggle_view);
         mSearchView = findViewById(R.id.search_view);
         mVewPager = findViewById(R.id.view_pager);
+
+        mToggleView.setOnClickListener(this);
+        mSearchView.setOnClickListener(this);
 
         mAdapter = new HomePagerAdapter(getSupportFragmentManager(), CHANNELS);
         mVewPager.setAdapter(mAdapter);
@@ -124,6 +128,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        Log.d(TAG, "view(" + view.getId() + ") is clicked!");
         switch (view.getId()) {
             case R.id.unloggin_layout:
                 if (!UserManager.getInstance().hasLogin()) {
@@ -131,6 +136,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 } else {
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
                 }
+                break;
+            case R.id.toggle_view:
+                Log.d(TAG, "Toggle_view is clicked!");
+                mDrawerLayout.openDrawer(Gravity.LEFT);
                 break;
         }
     }

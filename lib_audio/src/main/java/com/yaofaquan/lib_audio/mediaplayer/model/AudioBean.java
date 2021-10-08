@@ -126,4 +126,18 @@ public class AudioBean implements Serializable {
         }
         return ((AudioBean) other).id.equals(this.id);
     }
+
+    @Override
+    public String toString() {
+        return "AudioBean{" +
+                "id='" + id + '\'' +
+                ", mUrl='" + mUrl + '\'' +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", album='" + album + '\'' +
+                ", albumInfo='" + albumInfo + '\'' +
+                ", albumPic='" + albumPic + '\'' +
+                ", totalTime='" + totalTime + '\'' +
+                '}';
+    }
 }
