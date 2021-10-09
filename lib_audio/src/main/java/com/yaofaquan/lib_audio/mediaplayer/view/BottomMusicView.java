@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yaofaquan.lib_audio.R;
+import com.yaofaquan.lib_audio.mediaplayer.core.AudioController;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioLoadEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioPauseEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioProgressEvent;
@@ -77,6 +78,24 @@ public class BottomMusicView extends RelativeLayout {
         animator.setInterpolator(new LinearInterpolator());
         animator.setRepeatCount(-1);
         animator.start();
+
+        mTitleView = rootView.findViewById(R.id.audio_name_view);
+        mAlbumView = rootView.findViewById(R.id.audio_album_view);
+        mPlayView = rootView.findViewById(R.id.play_view);
+        mPlayView.setOnClickListener(new OnClickListener() {
+            @Override public void onClick(View v) {
+                //处理播放暂停事件
+                AudioController.getInstance().playOrPause();
+            }
+        });
+        mRightView = rootView.findViewById(R.id.show_list_view);
+        mRightView.setOnClickListener(new OnClickListener() {
+            @Override public void onClick(View v) {
+                //显示音乐列表对话框
+//                MusicListDialog dialog = new MusicListDialog(mContext);
+//                dialog.show();
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.yaofaquan.famusic.view.home;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,7 +11,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
@@ -33,15 +39,24 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Simple
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "HomeActivity";
+    private static final String[] PERMISSIONS = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET
+    };
     private static final CHANNEL[] CHANNELS = new CHANNEL[]{
             CHANNEL.MY, CHANNEL.DISCORY, CHANNEL.FRIEND
     };
+
     /**
-     * View
+     * View;
      */
     private DrawerLayout mDrawerLayout;
     private View mToggleView;
@@ -53,6 +68,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        checkPermission();
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_home);
@@ -150,5 +166,28 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mPhotoView.setVisibility(View.VISIBLE);
         ImageLoaderManager.getInstance()
                 .displayImageForCircle(mPhotoView, UserManager.getInstance().getUser().data.photoUrl);
+    }
+
+    private void checkPermission() {
+        for (int i = 0; i < PERMISSIONS.length; i++) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, i);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults != null) {
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permission " + PERMISSIONS[requestCode] + " denied.", Toast.LENGTH_LONG);
+                    finish();
+                }
+            }
+        }
     }
 }
