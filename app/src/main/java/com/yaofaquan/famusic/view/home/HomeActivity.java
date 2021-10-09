@@ -49,7 +49,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private static final String[] PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.INTERNET
+            Manifest.permission.INTERNET,
+            Manifest.permission.WAKE_LOCK
     };
     private static final CHANNEL[] CHANNELS = new CHANNEL[]{
             CHANNEL.MY, CHANNEL.DISCORY, CHANNEL.FRIEND

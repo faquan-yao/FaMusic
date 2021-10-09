@@ -6,6 +6,8 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.annotation.Unique;
+
 import com.yaofaquan.lib_audio.mediaplayer.db.DaoSession;
 import com.yaofaquan.lib_audio.mediaplayer.db.AudioBeanDao;
 import com.yaofaquan.lib_audio.mediaplayer.db.FavouriteDao;
@@ -16,6 +18,7 @@ public class Favourite {
     @Id(autoincrement = true)
     Long favouriteId;
     @NotNull
+    @Unique
     String audioId;
     //一条收藏记录唯一对应一条实体
     @ToOne(joinProperty = "audioId")

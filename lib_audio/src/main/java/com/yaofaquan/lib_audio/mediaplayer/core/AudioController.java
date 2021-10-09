@@ -9,6 +9,7 @@ import android.util.Log;
 import com.yaofaquan.lib_audio.app.AudioHelper;
 import com.yaofaquan.lib_audio.mediaplayer.db.GreenDaoHelper;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioFavouriteEvent;
+import com.yaofaquan.lib_audio.mediaplayer.events.AudioPlayModeEvent;
 import com.yaofaquan.lib_audio.mediaplayer.model.AudioBean;
 
 import org.greenrobot.eventbus.EventBus;
@@ -113,7 +114,7 @@ public class AudioController {
 
     public void setPlayIndex(int query) {
         mQueueIndex = query;
-        mAudioPlayer.load(getNextPlaying());
+        mAudioPlayer.load(getNowPlaying());
     }
 
     private int queryAudio(AudioBean bean) {
@@ -130,6 +131,8 @@ public class AudioController {
 
     public void setPlayMode(PlayMode mode) {
         mPlayMode = mode;
+        //
+        EventBus.getDefault().post(new AudioPlayModeEvent(mode));
     }
 
     public int getQueueIndex() {
@@ -171,6 +174,7 @@ public class AudioController {
     }
 
     public void next() {
+        Log.d(TAG, "next");
         AudioBean bean = getNextPlaying();
         mAudioPlayer.load(bean);
     }
@@ -213,6 +217,8 @@ public class AudioController {
             pause();
         } else if (isPauseState()) {
             resume();
+        } else if (isIdleState()) {
+            play();
         }
     }
 
@@ -224,13 +230,27 @@ public class AudioController {
         return mAudioPlayer.isStartState();
     }
 
+    public boolean isIdleState() {
+        return mAudioPlayer.isIdleState();
+    }
+
     public void changeFavouriteStatus() {
-        if (null != GreenDaoHelper.selectFavourite(getNextPlaying())) {
-            GreenDaoHelper.removeFavourite(getNextPlaying());
-            EventBus.getDefault().post(new AudioFavouriteEvent(false));
-        } else {
-            GreenDaoHelper.addFavourite(getNextPlaying());
-            EventBus.getDefault().post(new AudioFavouriteEvent(true));
+        AudioBean bean = getNextPlaying();
+        synchronized (bean) {
+            if (null != GreenDaoHelper.selectFavourite(bean)) {
+                GreenDaoHelper.removeFavourite(bean);
+                EventBus.getDefault().post(new AudioFavouriteEvent(false));
+            } else {
+                GreenDaoHelper.addFavourite(bean);
+                EventBus.getDefault().post(new AudioFavouriteEvent(true));
+            }
         }
+    }
+
+    public int getQueueSize() {
+        if (mQueue == null) {
+            mQueue = new ArrayList<>();
+        }
+        return mQueue.size();
     }
 }

@@ -168,6 +168,7 @@ public class MusicPlayerActivity extends BaseActivity {
         mPreViousView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Pre onClicked.");
                 AudioController.getInstance().previous();
             }
         });
@@ -175,6 +176,7 @@ public class MusicPlayerActivity extends BaseActivity {
         mPlayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Play onClicked.");
                 AudioController.getInstance().playOrPause();
             }
         });
@@ -182,6 +184,7 @@ public class MusicPlayerActivity extends BaseActivity {
         mNextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Next onClicked.");
                 AudioController.getInstance().next();
             }
         });

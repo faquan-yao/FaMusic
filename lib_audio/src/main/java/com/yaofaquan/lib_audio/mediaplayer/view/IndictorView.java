@@ -3,6 +3,7 @@ package com.yaofaquan.lib_audio.mediaplayer.view;
 import android.animation.Animator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,7 +27,9 @@ import java.util.ArrayList;
 
 public class IndictorView extends RelativeLayout implements ViewPager.OnPageChangeListener{
     private Context mContext;
+    private final String TAG = "IndictorView";
 
+    private boolean mUserSelectedIndictorView = true;
     /*
      * view相关
      */
@@ -84,8 +87,12 @@ public class IndictorView extends RelativeLayout implements ViewPager.OnPageChan
 
     @Override
     public void onPageSelected(int position) {
+        Log.d(TAG, "onPageSelected(" + position + "), mUserSelectedIndictorView = " + mUserSelectedIndictorView);
         //指定要播放的position
-        AudioController.getInstance().setPlayIndex(position);
+        if (mUserSelectedIndictorView) {
+            AudioController.getInstance().setPlayIndex(position);
+        }
+        mUserSelectedIndictorView = true;
     }
 
     @Override
@@ -128,6 +135,7 @@ public class IndictorView extends RelativeLayout implements ViewPager.OnPageChan
     }
 
     private void showLoadView(boolean isSmooth) {
+        mUserSelectedIndictorView = false;
         mViewPager.setCurrentItem(mQueue.indexOf(mAudioBean), isSmooth);
     }
 

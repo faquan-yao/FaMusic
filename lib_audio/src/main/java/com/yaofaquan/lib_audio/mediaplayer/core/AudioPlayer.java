@@ -125,16 +125,19 @@ public class AudioPlayer implements MediaPlayer.OnCompletionListener,
     }
 
     public void load(AudioBean bean) {
+        Log.d(TAG, "load " + bean.toString());
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setDataSource(bean.mUrl);
             mMediaPlayer.prepareAsync();
             //对外发送load事件
             EventBus.getDefault().post(new AudioLoadEvent(bean));
+            Log.d(TAG, "load " + bean.toString() + " finished.");
         } catch (IOException e) {
             e.printStackTrace();
             //对外发送Error事件
             EventBus.getDefault().post(new AudioErrorEvent() );
+            Log.d(TAG, "load " + bean.toString() + " error.");
         }
     }
 
@@ -213,5 +216,9 @@ public class AudioPlayer implements MediaPlayer.OnCompletionListener,
 
     public boolean isStartState() {
         return mMediaPlayer.getState() == CustomMediaPlayer.Status.STARTED;
+    }
+
+    public boolean isIdleState() {
+        return mMediaPlayer.getState() == CustomMediaPlayer.Status.IDEL;
     }
 }

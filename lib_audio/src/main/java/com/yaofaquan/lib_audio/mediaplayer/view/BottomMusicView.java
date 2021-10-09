@@ -69,7 +69,9 @@ public class BottomMusicView extends RelativeLayout {
         rootView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                MusicPlayerActivity.start((Activity)mContext);
+                if (AudioController.getInstance().getQueueSize() > 0) {
+                    MusicPlayerActivity.start((Activity) mContext);
+                }
             }
         });
         mLeftView = rootView.findViewById(R.id.album_view);
