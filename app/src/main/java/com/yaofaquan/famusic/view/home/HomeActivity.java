@@ -113,7 +113,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 bean.author = singer;
                 bean.mUrl = path;
                 bean.totalTime = Integer.toString(duration);
-                bean.album = Long.toString(albumId);
+                bean.album = albumInfo;
                 bean.albumInfo = albumInfo;
                 Uri uri = ContentUris.withAppendedId(albumArtUri, albumId);
                 bean.albumPic = uri.toString();

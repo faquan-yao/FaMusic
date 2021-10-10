@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -30,11 +31,12 @@ import static com.yaofaquan.lib_audio.mediaplayer.view.NotificationHelper.NOTIFI
 
 public class MusicService extends Service implements NotificationHelper.NotificationHelperListener {
 
+    private static final String TAG = "MusicService";
     private static String DATA_AUDIOS = "AUDIOS";
     private static String ACTION_START = "ACTION_START";
 
-    private ArrayList<AudioBean> mAudioBeans;
-    private NotificationReceiver mReceiver;
+    private ArrayList<AudioBean> mAudioBeans = new ArrayList<>();
+    private NotificationReceiver mReceiver = null;
 
     public static void startMusicService(ArrayList<AudioBean> audioBeans) {
         Intent intent = new Intent(AudioHelper.getContext(), MusicService.class);
@@ -57,7 +59,7 @@ public class MusicService extends Service implements NotificationHelper.Notifica
     }
 
     private void registerBroadcastReceiver() {
-        if (mReceiver != null) {
+        if (mReceiver == null) {
             mReceiver = new NotificationReceiver();
             IntentFilter filter = new IntentFilter();
             filter.addAction(NotificationReceiver.ACTION_STATUS_BAR);
@@ -68,6 +70,7 @@ public class MusicService extends Service implements NotificationHelper.Notifica
     private void unRegisterBroadcastReceiver() {
         if (mReceiver != null) {
             unregisterReceiver(mReceiver);
+            mReceiver = null;
         }
     }
 
@@ -138,10 +141,12 @@ public class MusicService extends Service implements NotificationHelper.Notifica
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "onReceive " + intent.getAction());
             if (intent == null || TextUtils.isEmpty(intent.getAction())) {
                 return;
             }
             String extra = intent.getStringExtra(EXTRA);
+            Log.d(TAG, "extra = " + extra);
             switch (extra) {
                 case EXTRA_PLAY:
                     //处理播放暂停事件,可以封到AudioController中
