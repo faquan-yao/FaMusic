@@ -1,11 +1,15 @@
 package com.yaofaquan.famusic.view.home;
 
 import android.Manifest;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -25,6 +29,8 @@ import com.yaofaquan.famusic.view.home.adpater.HomePagerAdapter;
 import com.yaofaquan.famusic.view.login.LoginActivity;
 import com.yaofaquan.famusic.view.login.LoginEvent;
 import com.yaofaquan.famusic.view.login.UserManager;
+import com.yaofaquan.lib_audio.app.AudioHelper;
+import com.yaofaquan.lib_audio.mediaplayer.model.AudioBean;
 import com.yaofaquan.lib_common_ui.base.BaseActivity;
 import com.yaofaquan.lib_image_loader.app.ImageLoaderManager;
 
@@ -50,7 +56,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.INTERNET,
-            Manifest.permission.WAKE_LOCK
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.FOREGROUND_SERVICE
     };
     private static final CHANNEL[] CHANNELS = new CHANNEL[]{
             CHANNEL.MY, CHANNEL.DISCORY, CHANNEL.FRIEND
@@ -66,6 +73,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private HomePagerAdapter mAdapter;
     private LinearLayout mUnLoggingLayout;
     private ImageView mPhotoView;
+
+    private ArrayList<AudioBean> mLocalDataList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +93,35 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initData() {
+        Uri albumArtUri = Uri.parse("content://media/external/audio/albumart");
+        Cursor cursor = AudioHelper.getContext().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                , null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        if (cursor != null) {
+            Log.d(TAG, "Count = " + cursor.getCount());
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
+                long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
+                String singer = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
+                String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+                int duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
+                long albumId = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
+                String albumInfo = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
 
+                AudioBean bean = new AudioBean();
+                bean.name = name;
+                bean.id = Long.toString(id);
+                bean.author = singer;
+                bean.mUrl = path;
+                bean.totalTime = Integer.toString(duration);
+                bean.album = Long.toString(albumId);
+                bean.albumInfo = albumInfo;
+                Uri uri = ContentUris.withAppendedId(albumArtUri, albumId);
+                bean.albumPic = uri.toString();
+                Log.d(TAG, "Add audio bean " + bean.toString());
+                mLocalDataList.add(bean);
+            }
+        }
+        AudioHelper.startMusicService(mLocalDataList);
     }
 
     private void initView() {

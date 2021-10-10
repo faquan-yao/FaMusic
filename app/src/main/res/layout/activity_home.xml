@@ -145,8 +145,7 @@
                     android:paddingStart="30dp"
                     android:paddingEnd="30dp">
 
-                    <!--
-                    <com.imooc.lib_commin_ui.VerticalItemView
+                    <com.yaofaquan.lib_common_ui.VerticalItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -164,7 +163,7 @@
                         app:tipTextColor="@color/color_white"
                         app:tipTextSize="11sp" />
 
-                    <com.imooc.lib_commin_ui.VerticalItemView
+                    <com.yaofaquan.lib_common_ui.VerticalItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -182,7 +181,7 @@
                         app:tipTextColor="@color/color_white"
                         app:tipTextSize="11sp" />
 
-                    <com.imooc.lib_commin_ui.VerticalItemView
+                    <com.yaofaquan.lib_common_ui.VerticalItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -200,7 +199,7 @@
                         app:tipTextColor="@color/color_white"
                         app:tipTextSize="11sp" />
 
-                    <com.imooc.lib_commin_ui.VerticalItemView
+                    <com.yaofaquan.lib_common_ui.VerticalItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -217,7 +216,6 @@
                         app:tipText="1"
                         app:tipTextColor="@color/color_white"
                         app:tipTextSize="11sp" />
-                        -->
                 </LinearLayout>
 
                 <View
@@ -226,8 +224,7 @@
                     android:layout_margin="20dp"
                     android:background="#dddddd" />
 
-                <!--
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hIcon="@mipmap/anc"
@@ -237,7 +234,7 @@
                     app:rightText="林志颖北京"
                     app:tileText="演出" />
 
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hIcon="@mipmap/and"
@@ -247,7 +244,7 @@
                     app:rightText="JBL耳机78元"
                     app:tileText="商城" />
 
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hIcon="@mipmap/ane"
@@ -256,7 +253,7 @@
                     app:paddingRight="20dp"
                     app:tileText="附近的人" />
 
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hIcon="@mipmap/anf"
@@ -271,7 +268,7 @@
                     android:layout_margin="20dp"
                     android:background="#dddddd" />
 
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hIcon="@mipmap/ang"
@@ -280,7 +277,7 @@
                     app:paddingRight="20dp"
                     app:tileText="定时停止播放" />
 
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:id="@+id/home_qrcode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -290,7 +287,7 @@
                     app:paddingRight="20dp"
                     app:tileText="扫一扫" />
 
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:id="@+id/home_music"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -300,7 +297,7 @@
                     app:paddingRight="20dp"
                     app:tileText="音乐闹钟" />
 
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:id="@+id/online_music_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -310,7 +307,7 @@
                     app:paddingRight="20dp"
                     app:tileText="在线听歌免流量" />
 
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hIcon="@mipmap/ank"
@@ -319,7 +316,7 @@
                     app:paddingRight="20dp"
                     app:tileText="游戏推荐" />
 
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hIcon="@mipmap/anl"
@@ -328,7 +325,7 @@
                     app:paddingRight="20dp"
                     app:tileText="优惠卷" />
 
-                <com.imooc.lib_commin_ui.HornizeItemView
+                <com.yaofaquan.lib_common_ui.HornizeItemView
                     android:id="@+id/check_update_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -337,7 +334,6 @@
                     app:paddingLeft="20dp"
                     app:paddingRight="20dp"
                     app:tileText="检查更新" />
-                    -->
             </LinearLayout>
         </ScrollView>
 

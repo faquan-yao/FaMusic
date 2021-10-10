@@ -48,39 +48,6 @@ public class AudioController {
         mQueue = new ArrayList<>();
         mQueueIndex = 0;
         mPlayMode = PlayMode.LOOP;
-
-        getLocalMusicResources();
-    }
-
-    private void getLocalMusicResources() {
-        Uri albumArtUri = Uri.parse("content://media/external/audio/albumart");
-        Cursor cursor = AudioHelper.getContext().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                , null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
-        if (cursor != null) {
-            Log.d(TAG, "Count = " + cursor.getCount());
-            while (cursor.moveToNext()) {
-                String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
-                long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
-                String singer = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
-                String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
-                int duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
-                long albumId = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
-                String albumInfo = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
-
-                AudioBean bean = new AudioBean();
-                bean.name = name;
-                bean.id = Long.toString(id);
-                bean.author = singer;
-                bean.mUrl = path;
-                bean.totalTime = Integer.toString(duration);
-                bean.album = Long.toString(albumId);
-                bean.albumInfo = albumInfo;
-                Uri uri = ContentUris.withAppendedId(albumArtUri, albumId);
-                bean.albumPic = uri.toString();
-                Log.d(TAG, "Add audio bean " + bean.toString());
-                mQueue.add(bean);
-            }
-        }
     }
 
     public ArrayList<AudioBean> getQueue() {
