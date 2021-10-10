@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
 
@@ -20,20 +21,9 @@ public class AliveJobService extends JobService {
     private static final String TAG = "AliveJobService";
 
     private static final int MSG_PULL_ALIVE = 0x01;
-    private JobScheduler mJobScheduler;
-    private Handler mHandler = new Handler(getMainLooper()) {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            switch (msg.what) {
-                case MSG_PULL_ALIVE:
-                    Log.d(TAG, "pull alive.");
-                    jobFinished((JobParameters) msg.obj, true);
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
+    private JobScheduler mJobScheduler = null;
+    private HandlerThread mThread = null;
+    private Handler mHandler = null;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AliveJobService.class);
@@ -52,6 +42,21 @@ public class AliveJobService extends JobService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mThread = new HandlerThread(getPackageName() + "_AliveJobService");
+        mThread.start();
+        mHandler = new Handler(mThread.getLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case MSG_PULL_ALIVE:
+                        Log.d(TAG, "pull alive.");
+                        jobFinished((JobParameters) msg.obj, true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
         JobInfo jobInfo = initJonInfo(startId);
         if (mJobScheduler.schedule(jobInfo) <= 0) {
             Log.d(TAG, "AliveJobService schedule failed.");
