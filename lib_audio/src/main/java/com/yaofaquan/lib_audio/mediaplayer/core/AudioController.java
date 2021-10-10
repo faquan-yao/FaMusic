@@ -8,11 +8,15 @@ import android.util.Log;
 
 import com.yaofaquan.lib_audio.app.AudioHelper;
 import com.yaofaquan.lib_audio.mediaplayer.db.GreenDaoHelper;
+import com.yaofaquan.lib_audio.mediaplayer.events.AudioCompleteEvent;
+import com.yaofaquan.lib_audio.mediaplayer.events.AudioErrorEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioFavouriteEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioPlayModeEvent;
 import com.yaofaquan.lib_audio.mediaplayer.model.AudioBean;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -44,6 +48,7 @@ public class AudioController {
     }
 
     private AudioController() {
+        EventBus.getDefault().register(this);
         mAudioPlayer = new AudioPlayer();
         mQueue = new ArrayList<>();
         mQueueIndex = 0;
@@ -219,5 +224,15 @@ public class AudioController {
             mQueue = new ArrayList<>();
         }
         return mQueue.size();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAudioCompleteEvent(AudioCompleteEvent event) {
+        next();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAudioError(AudioErrorEvent event) {
+        next();
     }
 }
