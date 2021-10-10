@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.yaofaquan.lib_audio.app.AudioHelper;
 import com.yaofaquan.lib_audio.mediaplayer.db.GreenDaoHelper;
+import com.yaofaquan.lib_pullalive.app.AliveJobService;
 
 public class FaMusicApplication extends Application {
     private static FaMusicApplication sInstance = null;
@@ -12,6 +13,7 @@ public class FaMusicApplication extends Application {
         super.onCreate();
         AudioHelper.init(this);
         GreenDaoHelper.initDataBase();
+        AliveJobService.start(this);
     }
 
     public static FaMusicApplication getInstance() {

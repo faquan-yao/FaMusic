@@ -32,6 +32,7 @@ import com.yaofaquan.famusic.view.login.UserManager;
 import com.yaofaquan.lib_audio.app.AudioHelper;
 import com.yaofaquan.lib_audio.mediaplayer.model.AudioBean;
 import com.yaofaquan.lib_common_ui.base.BaseActivity;
+import com.yaofaquan.lib_common_ui.pager_indictor.ScaleTransitionPagerTitleView;
 import com.yaofaquan.lib_image_loader.app.ImageLoaderManager;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -155,7 +156,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public IPagerTitleView getTitleView(Context context, int index) {
-                SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
+                SimplePagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
                 simplePagerTitleView.setText(CHANNELS[index].getKey());
                 simplePagerTitleView.setTextSize(19);
                 simplePagerTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
@@ -175,6 +176,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 return null;
             }
 
+            @Override
+            public float getTitleWeight(Context context, int index) {
+                return 1.0f;
+            }
         });
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, mVewPager);
