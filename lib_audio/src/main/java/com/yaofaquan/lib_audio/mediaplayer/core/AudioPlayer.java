@@ -17,6 +17,7 @@ import com.yaofaquan.lib_audio.mediaplayer.events.AudioCompleteEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioErrorEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioLoadEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioPauseEvent;
+import com.yaofaquan.lib_audio.mediaplayer.events.AudioProgressEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioReleaseEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioStartEvent;
 import com.yaofaquan.lib_audio.mediaplayer.model.AudioBean;
@@ -46,10 +47,34 @@ public class AudioPlayer implements MediaPlayer.OnCompletionListener,
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case TIME_MSG:
+                    //暂停也要更新进度，防止UI不同步，只不过进度一直一样
+                    if (getStatus() == CustomMediaPlayer.Status.STARTED
+                            || getStatus() == CustomMediaPlayer.Status.PAUSED) {
+                        //UI类型处理事件
+                        EventBus.getDefault()
+                                .post(new AudioProgressEvent(getStatus(), getCurrentPosition(), getDuration()));
+                        sendEmptyMessageDelayed(TIME_MSG, TIME_INVAL);
+                    }
                     break;
             }
         }
     };
+
+    private int getDuration() {
+        if (getStatus() == CustomMediaPlayer.Status.STARTED
+                || getStatus() == CustomMediaPlayer.Status.PAUSED) {
+            return mMediaPlayer.getDuration();
+        }
+        return 0;
+    }
+
+    private int getCurrentPosition() {
+        if (getStatus() == CustomMediaPlayer.Status.STARTED
+                || getStatus() == CustomMediaPlayer.Status.PAUSED) {
+            return mMediaPlayer.getCurrentPosition();
+        }
+        return 0;
+    }
 
     public AudioPlayer() {
         init();
@@ -192,6 +217,8 @@ public class AudioPlayer implements MediaPlayer.OnCompletionListener,
         }
         mMediaPlayer.start();
         mWifiLock.acquire();
+
+        mHandler.sendEmptyMessage(TIME_MSG);
         //对外发送start事件
         EventBus.getDefault().post(new AudioStartEvent());
     }
