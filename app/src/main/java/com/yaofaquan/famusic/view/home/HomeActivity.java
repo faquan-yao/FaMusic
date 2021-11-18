@@ -79,8 +79,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        checkPermission();
         super.onCreate(savedInstanceState);
+        checkPermission();
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_home);
         initView();
@@ -205,10 +205,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginEvent(LoginEvent event) {
+        Log.d(TAG, "onLoginEvent");
         mUnLoggingLayout.setVisibility(View.GONE);
         mPhotoView.setVisibility(View.VISIBLE);
+
         ImageLoaderManager.getInstance()
-                .displayImageForCircle(mPhotoView, UserManager.getInstance().getUser().data.photoUrl);
+                .displayImageForCircle(mPhotoView, UserManager.getInstance().getUser().head_photo);
     }
 
     private void checkPermission() {

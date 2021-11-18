@@ -95,6 +95,7 @@ public class CircleImageView extends ImageView {
 
     private void init() {
         super.setScaleType(SCALE_TYPE);
+        mReady = true;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setOutlineProvider(new ViewOutlineProvider() {
@@ -110,7 +111,7 @@ public class CircleImageView extends ImageView {
         
         if (mSetupPending) {
             setup();
-            mSetupPending = true;
+            mSetupPending = false;
         }
     }
 
@@ -276,7 +277,8 @@ public class CircleImageView extends ImageView {
     }
 
     private Bitmap getBitmapFromDrawable(Drawable drawable) {
-        if (drawable == null) {
+        if (drawable == null || drawable.getIntrinsicWidth() == 0
+                || drawable.getIntrinsicHeight() == 0) {
             return null;
         }
 

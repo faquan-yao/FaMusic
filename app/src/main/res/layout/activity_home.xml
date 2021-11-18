@@ -89,12 +89,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
+                    <com.yaofaquan.lib_common_ui.circle_image_view.CircleImageView
                         android:id="@+id/avatr_view"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="20dp"
+                        android:src="@mipmap/ic_fa"
                         android:visibility="gone" />
 
                     <LinearLayout

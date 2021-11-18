@@ -10,7 +10,7 @@ import com.yaofaquan.lib_network.okhttp.request.RequestParams;
 public class RequestCenter {
 
     static class HttpConstants {
-        private static final String ROOT_URL = "127.0.0.1";
+        private static final String ROOT_URL = " https://mock.mengxuegu.com/mock/6190b7cef126df7bfd5b75ab/FaMusic";
 
         /**
          * 首页请求接口
@@ -24,14 +24,14 @@ public class RequestCenter {
         /**
          * 登陆接口
          */
-        public static String LOGIN = ROOT_URL + "/module_voice/login_phone";
+        public static String LOGIN = ROOT_URL + "/login";
     }
 
     //根据参数发送所有post请求
     public static void getRequest(String url, RequestParams params, DisposeDataListener listener,
                                   Class<?> clazz) {
-        CommonOkHttpClient.get(CommonRequest.
-                createGetRequest(url, params), new DisposeDataHandle(listener, clazz));
+        CommonOkHttpClient.post(CommonRequest.
+                createPostRequest(url, params, null), new DisposeDataHandle(listener, clazz));
     }
 
     public static void requestRecommandData(DisposeDataListener listener) {

@@ -23,6 +23,7 @@ import com.bumptech.glide.request.target.NotificationTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.yaofaquan.lib_image_loader.R;
 import com.yaofaquan.lib_image_loader.image.Utils;
 
 import org.jetbrains.annotations.NotNull;
