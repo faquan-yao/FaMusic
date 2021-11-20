@@ -13,11 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.github.nukc.LoadMoreWrapper.LoadMoreAdapter;
-import com.github.nukc.LoadMoreWrapper.LoadMoreWrapper;
 import com.yaofaquan.famusic.R;
+import com.yaofaquan.famusic.api.RequestCenter;
 import com.yaofaquan.famusic.model.friend.BaseFriendModel;
 import com.yaofaquan.famusic.model.friend.FriendBodyValue;
+import com.yaofaquan.famusic.view.friend.adpater.FriendRecyclerAdapter;
+import com.yaofaquan.lib_common_ui.recyclerview.wrapper.LoadMoreWrapper;
+import com.yaofaquan.lib_network.okhttp.listener.DisposeDataListener;
+import com.yaofaquan.lib_network.okhttp.utils.ResponseEntityToModule;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FriendFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        LoadMoreAdapter.OnLoadMoreListener {
+        LoadMoreWrapper.OnLoadMoreListener {
 
     private Context mContext;
     /*
@@ -33,7 +36,8 @@ public class FriendFragment extends Fragment implements SwipeRefreshLayout.OnRef
      */
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-    //private FriendRecyclerAdapter mAdapter;
+
+    private FriendRecyclerAdapter mAdapter;
     private LoadMoreWrapper mLoadMoreWrapper;
     /*
      * data
@@ -81,14 +85,53 @@ public class FriendFragment extends Fragment implements SwipeRefreshLayout.OnRef
         requestData();
     }
 
-    private void requestData() {
-    }
 
     @Override
-    public void onLoadMore(LoadMoreAdapter.Enabled enabled) {
-        loadMore();
+    public void onLoadMoreRequested() {
+
+    }
+
+    private void requestData() {
+        RequestCenter.requestFriendData(new DisposeDataListener() {
+            @Override
+            public void onSuccess(Object responseObj) {
+                mRecommandData = (BaseFriendModel) responseObj;
+                updateView();
+            }
+
+            @Override
+            public void onFailure(Object reasonObj) {
+//                onSuccess(ResponseEntityToModule.parseJsonToModule(MockData.FRIEND_DATA,
+//                        BaseFriendModel.class));
+            }
+        });
     }
 
     private void loadMore() {
+        RequestCenter.requestFriendData(new DisposeDataListener() {
+            @Override
+            public void onSuccess(Object responseObj) {
+                BaseFriendModel moreData = (BaseFriendModel) responseObj;
+                mDatas.addAll(moreData.data.list);
+                mLoadMoreWrapper.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Object reasonObj) {
+//                onSuccess(
+//                        ResponseEntityToModule.parseJsonToModule(MockData.FRIEND_DATA, BaseFriendModel.class));
+            }
+        });
+    }
+
+    private void updateView() {
+        mSwipeRefreshLayout.setRefreshing(false); //停止刷新
+        mDatas = mRecommandData.data.list;
+        mAdapter = new FriendRecyclerAdapter(mContext, mDatas);
+        //加载更多初始化
+        mLoadMoreWrapper = new LoadMoreWrapper(mAdapter);
+        mLoadMoreWrapper.setLoadMoreView(R.layout.default_loading);
+        mLoadMoreWrapper.setOnLoadMoreListener(this);
+        mRecyclerView.setAdapter(mLoadMoreWrapper);
     }
 }

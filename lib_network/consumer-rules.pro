@@ -1,0 +1,1 @@
+-keep class com.yaofaquan.lib_network.okhttp.utils.ResponseEntityToModule {*;}
