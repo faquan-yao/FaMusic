@@ -52,4 +52,8 @@ public class UserManager {
     private void clearLocal() {
 
     }
+
+    public boolean hasLogined() {
+        return true;
+    }
 }

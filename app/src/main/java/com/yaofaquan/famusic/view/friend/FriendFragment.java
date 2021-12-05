@@ -128,7 +128,6 @@ public class FriendFragment extends Fragment implements SwipeRefreshLayout.OnRef
         mSwipeRefreshLayout.setRefreshing(false); //停止刷新
         mDatas = mRecommandData.data.list;
         mAdapter = new FriendRecyclerAdapter(mContext, mDatas);
-        //加载更多初始化
         mLoadMoreWrapper = new LoadMoreWrapper(mAdapter);
         mLoadMoreWrapper.setLoadMoreView(R.layout.default_loading);
         mLoadMoreWrapper.setOnLoadMoreListener(this);

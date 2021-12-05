@@ -16,6 +16,7 @@ import com.yaofaquan.lib_common_ui.recyclerview.MultiItemTypeAdapter;
 import com.yaofaquan.lib_common_ui.recyclerview.base.ItemViewDelegate;
 import com.yaofaquan.lib_common_ui.recyclerview.base.ViewHolder;
 import com.yaofaquan.lib_image_loader.app.ImageLoaderManager;
+import com.yaofaquan.lib_video.videoplayer.core.VideoAdContext;
 
 import java.util.List;
 
