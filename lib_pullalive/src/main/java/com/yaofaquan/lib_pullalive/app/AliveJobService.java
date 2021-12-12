@@ -1,6 +1,8 @@
 package com.yaofaquan.lib_pullalive.app;
 
 import android.annotation.TargetApi;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
@@ -21,13 +23,19 @@ public class AliveJobService extends JobService {
     private static final String TAG = "AliveJobService";
 
     private static final int MSG_PULL_ALIVE = 0x01;
+    private static final String CHANNEL_ID = "FaMusic";
+    private static final CharSequence CHANNEL_NAME = "FaMusic_AliveJob";
     private JobScheduler mJobScheduler = null;
     private HandlerThread mThread = null;
     private Handler mHandler = null;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AliveJobService.class);
-        context.startService(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
     }
 
     public AliveJobService() {
@@ -57,6 +65,7 @@ public class AliveJobService extends JobService {
                 }
             }
         };
+
         JobInfo jobInfo = initJonInfo(startId);
         if (mJobScheduler.schedule(jobInfo) <= 0) {
             Log.d(TAG, "AliveJobService schedule failed.");

@@ -150,6 +150,9 @@ public class AudioPlayer implements MediaPlayer.OnCompletionListener,
     }
 
     public void load(AudioBean bean) {
+        if (bean == null) {
+            return;
+        }
         Log.d(TAG, "load " + bean.toString());
         try {
             mMediaPlayer.reset();

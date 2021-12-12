@@ -352,6 +352,7 @@ public class CustomVideoView extends RelativeLayout
             setCurrentPlayState(STATE_IDLE);
             checkMediaPlayer();
             mute(true);
+            mMediaPlayer.reset();
             mMediaPlayer.setDataSource(mUrl);
             mMediaPlayer.prepareAsync();
         } catch (IOException e) {

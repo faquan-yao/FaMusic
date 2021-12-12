@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.yaofaquan.lib_base.service.audio.AudioService;
 import com.yaofaquan.lib_video.videoplayer.core.view.CustomVideoView;
+import com.yaofaquan.lib_video.videoplayer.core.view.VideoFullDialog;
 import com.yaofaquan.lib_video.videoplayer.utils.Utils;
 
 public class VideoAdSlot implements CustomVideoView.ADVideoPlayerListener{
@@ -15,11 +19,13 @@ public class VideoAdSlot implements CustomVideoView.ADVideoPlayerListener{
     private CustomVideoView mVideoView;
     private ViewGroup mParentView;
 
-    //protected AudioService mAudioService;
+    @Autowired(name = "/audio/audio_service")
+    protected AudioService mAudioService;
     private String mXAdInstance;
     private SDKSlotListener mSlotListener;
 
     public VideoAdSlot(String adInstance, SDKSlotListener slotListener) {
+        ARouter.getInstance().inject(this);
         mXAdInstance = adInstance;
         mSlotListener = slotListener;
         mParentView = slotListener.getAdParent();
@@ -56,7 +62,49 @@ public class VideoAdSlot implements CustomVideoView.ADVideoPlayerListener{
     public void onClickFullScreenBtn() {
         Bundle bundle = Utils.getViewProperty(mParentView);
         mParentView.removeView(mVideoView);
+        VideoFullDialog dialog = new VideoFullDialog(mContext, mVideoView, mXAdInstance, mVideoView.getCurrentPosition());
+        dialog.setListener(new VideoFullDialog.FullToSmallListener() {
+            @Override
+            public void getCurrentPlayPosition(int position) {
+                backToSmallMode(position);
+            }
 
+            @Override
+            public void playComplete() {
+                bigPlayComplete();
+            }
+        });
+        dialog.setViewBundle(bundle); //为Dialog设置播放器数据Bundle对象
+        dialog.setSlotListener(mSlotListener);
+        dialog.show();
+        //全屏暂停音乐播放
+        mAudioService.pauseAudio();
+    }
+
+    private void backToSmallMode(int position) {
+        if (mVideoView.getParent() == null) {
+            mParentView.addView(mVideoView);
+        }
+        mVideoView.setTranslationY(0);
+        mVideoView.isShowFullBtn(true);
+        mVideoView.mute(true);
+        mVideoView.setListener(this);
+        mVideoView.seekAndResume(position);
+
+        //小屏恢复音乐播放
+        mAudioService.resumeAudio();
+    }
+
+
+    private void bigPlayComplete() {
+        if (mVideoView.getParent() == null) {
+            mParentView.addView(mVideoView);
+        }
+        mVideoView.setTranslationY(0); //防止动画导致偏离父容器
+        mVideoView.isShowFullBtn(true);
+        mVideoView.mute(true);
+        mVideoView.setListener(this);
+        mVideoView.seekAndPause(0);
     }
 
     @Override
@@ -76,17 +124,24 @@ public class VideoAdSlot implements CustomVideoView.ADVideoPlayerListener{
 
     @Override
     public void onAdVideoLoadSuccess() {
-
+        if (mSlotListener != null) {
+            mSlotListener.onVideoLoadSuccess();
+        }
     }
 
     @Override
     public void onAdVideoLoadFailed() {
-
+        if (mSlotListener != null) {
+            mSlotListener.onVideoFailed();
+        }
     }
 
     @Override
     public void onAdVideoLoadComplete() {
-
+        if (mSlotListener != null) {
+            mSlotListener.onVideoComplete();
+        }
+        mVideoView.setIsRealPause(true);
     }
 
     public interface SDKSlotListener {

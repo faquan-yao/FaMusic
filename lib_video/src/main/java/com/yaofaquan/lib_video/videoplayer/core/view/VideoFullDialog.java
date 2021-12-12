@@ -50,6 +50,18 @@ public class VideoFullDialog extends Dialog implements CustomVideoView.ADVideoPl
         initVideoView();
     }
 
+    public void setViewBundle(Bundle bundle) {
+        mStartBundle = bundle;
+    }
+
+    public void setListener(FullToSmallListener listener) {
+        mListener = listener;
+    }
+
+    public void setSlotListener(VideoAdSlot.SDKSlotListener slotListener) {
+        mSlotListener = slotListener;
+    }
+
     private void initVideoView() {
         mParentView = (RelativeLayout) findViewById(R.id.content_layout);
         mRootView = findViewById(R.id.root_view);

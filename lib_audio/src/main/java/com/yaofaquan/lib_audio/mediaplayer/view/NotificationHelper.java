@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.yaofaquan.lib_audio.R;
 import com.yaofaquan.lib_audio.app.AudioHelper;
+import com.yaofaquan.lib_audio.mediaplayer.core.AudioController;
 import com.yaofaquan.lib_audio.mediaplayer.core.MusicService;
 import com.yaofaquan.lib_audio.mediaplayer.db.GreenDaoHelper;
 import com.yaofaquan.lib_audio.mediaplayer.model.AudioBean;
@@ -47,6 +48,7 @@ public class NotificationHelper {
         mNotificationManager = (NotificationManager) AudioHelper.getContext()
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         mPackageName = AudioHelper.getContext().getPackageName();
+        mAudioBean = AudioController.getInstance().getNowPlaying();
         initNotification();
         mListener = listener;
         if (mListener != null) {
@@ -165,6 +167,10 @@ public class NotificationHelper {
             ImageLoaderManager.getInstance()
                     .displayImageForNotification(AudioHelper.getContext(), R.id.image_view,
                             mSmallRemoteViews, mNotification, NOTIFICATION_ID, mAudioBean.albumPic);
+        }
+        if (mNotificationManager == null) {
+            mNotificationManager = (NotificationManager) AudioHelper.getContext()
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
         }
         mNotificationManager.notify(NOTIFICATION_ID, mNotification);
     }

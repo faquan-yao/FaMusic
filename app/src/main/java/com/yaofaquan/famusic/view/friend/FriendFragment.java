@@ -2,6 +2,7 @@ package com.yaofaquan.famusic.view.friend;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.yaofaquan.famusic.R;
+import com.yaofaquan.famusic.api.MockData;
 import com.yaofaquan.famusic.api.RequestCenter;
 import com.yaofaquan.famusic.model.friend.BaseFriendModel;
 import com.yaofaquan.famusic.model.friend.FriendBodyValue;
@@ -64,7 +66,7 @@ public class FriendFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_friend_layout, null);
+        View rootView = inflater.inflate(R.layout.fragment_discory_layout, null);
         mSwipeRefreshLayout = rootView.findViewById(R.id.refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(
                 getResources().getColor(android.R.color.holo_red_light));
@@ -88,7 +90,7 @@ public class FriendFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onLoadMoreRequested() {
-
+        loadMore();
     }
 
     private void requestData() {
@@ -101,8 +103,8 @@ public class FriendFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
             @Override
             public void onFailure(Object reasonObj) {
-//                onSuccess(ResponseEntityToModule.parseJsonToModule(MockData.FRIEND_DATA,
-//                        BaseFriendModel.class));
+                onSuccess(ResponseEntityToModule.parseJsonToModule(MockData.FRIEND_DATA,
+                        BaseFriendModel.class));
             }
         });
     }
@@ -118,8 +120,8 @@ public class FriendFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
             @Override
             public void onFailure(Object reasonObj) {
-//                onSuccess(
-//                        ResponseEntityToModule.parseJsonToModule(MockData.FRIEND_DATA, BaseFriendModel.class));
+                onSuccess(
+                        ResponseEntityToModule.parseJsonToModule(MockData.FRIEND_DATA, BaseFriendModel.class));
             }
         });
     }

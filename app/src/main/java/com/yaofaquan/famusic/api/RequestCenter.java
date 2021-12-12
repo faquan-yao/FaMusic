@@ -1,6 +1,9 @@
 package com.yaofaquan.famusic.api;
 
 import com.yaofaquan.famusic.model.User.User;
+import com.yaofaquan.famusic.model.discory.BaseRecommandModel;
+import com.yaofaquan.famusic.model.discory.BaseRecommandMoreModel;
+import com.yaofaquan.famusic.model.friend.BaseFriendModel;
 import com.yaofaquan.lib_network.okhttp.CommonOkHttpClient;
 import com.yaofaquan.lib_network.okhttp.listener.DisposeDataHandle;
 import com.yaofaquan.lib_network.okhttp.listener.DisposeDataListener;
@@ -35,17 +38,17 @@ public class RequestCenter {
     }
 
     public static void requestRecommandData(DisposeDataListener listener) {
-//        RequestCenter.getRequest(HttpConstants.HOME_RECOMMAND, null, listener,
-//                BaseRecommandModel.class);
+        RequestCenter.getRequest(HttpConstants.HOME_RECOMMAND, null, listener,
+                BaseRecommandModel.class);
     }
 
     public static void requestRecommandMore(DisposeDataListener listener) {
-//        RequestCenter.getRequest(HttpConstants.HOME_RECOMMAND_MORE, null, listener,
-//                BaseRecommandMoreModel.class);
+        RequestCenter.getRequest(HttpConstants.HOME_RECOMMAND_MORE, null, listener,
+                BaseRecommandMoreModel.class);
     }
 
     public static void requestFriendData(DisposeDataListener listener) {
-//        RequestCenter.getRequest(HttpConstants.HOME_FRIEND, null, listener, BaseFriendModel.class);
+        RequestCenter.getRequest(HttpConstants.HOME_FRIEND, null, listener, BaseFriendModel.class);
     }
 
     /**

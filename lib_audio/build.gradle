@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.greenrobot.greendao'
+    id 'com.alibaba.arouter'
 }
 
 android {
@@ -12,6 +13,12 @@ android {
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName(), AROUTER_GENERATE_DOC: "enable"]
+            }
+        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -36,7 +43,11 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.3.0'
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+    implementation 'com.alibaba:arouter-api:1.5.2'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.5.2'
     implementation project(path: ':lib_common_ui')
+    implementation project(path: ':lib_base')
+    implementation project(path: ':lib_base')
     compileOnly 'com.google.android.material:material:1.2.1'
     compileOnly 'org.greenrobot:eventbus:3.1.1'
     compileOnly 'io.reactivex.rxjava2:rxjava:2.2.9'
