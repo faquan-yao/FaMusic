@@ -2,6 +2,7 @@ package com.yaofaquan.lib_network.okhttp.response;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.yaofaquan.lib_network.okhttp.exception.OkHttpException;
@@ -21,6 +22,7 @@ import okhttp3.Response;
  * 处理json类型的响应
  */
 public class CommonJsonCallback implements Callback {
+    private final String TAG = this.getClass().getSimpleName();
 
     protected  final String EMPTY_MSG = "";
 
@@ -65,6 +67,7 @@ public class CommonJsonCallback implements Callback {
             mListener.onFailure(new OkHttpException(NETWORK_ERROR, EMPTY_MSG));
             return;
         }
+        Log.d(TAG, "result = " + result);
         try {
             JSONObject objectString = new JSONObject(result);
             if (mClass == null) {

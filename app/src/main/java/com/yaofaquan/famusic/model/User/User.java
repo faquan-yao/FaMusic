@@ -1,16 +1,20 @@
 package com.yaofaquan.famusic.model.User;
 
 public class User {
-    public String id;
-    public String nick_name;
-    public String head_photo;
+    public String username;
+    public String email;
+    public String phone;
+    public String avatar;
+    public String intro;
 
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
-                ", nick_name='" + nick_name + '\'' +
-                ", head_photo='" + head_photo + '\'' +
+                "username=\'" + username + '\'' +
+                ", email=\'" + email + '\'' +
+                ", phone=\'" + phone + '\'' +
+                ", avatar=\'" + avatar + '\'' +
+                ", intro=\'" + intro + '\'' +
                 '}';
     }
 }

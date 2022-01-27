@@ -24,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.yaofaquan.famusic.R;
+import com.yaofaquan.famusic.api.RequestCenter;
 import com.yaofaquan.famusic.model.CHANNEL;
 import com.yaofaquan.famusic.view.home.adpater.HomePagerAdapter;
 import com.yaofaquan.famusic.view.login.LoginActivity;
@@ -209,8 +210,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mUnLoggingLayout.setVisibility(View.GONE);
         mPhotoView.setVisibility(View.VISIBLE);
 
+//        ImageLoaderManager.getInstance()
+//                .displayImageForCircle(mPhotoView, RequestCenter.getMediaUrl(UserManager.getInstance().getUser().avatar));
         ImageLoaderManager.getInstance()
-                .displayImageForCircle(mPhotoView, UserManager.getInstance().getUser().head_photo);
+                .displayImageForView(mPhotoView, RequestCenter.getMediaUrl(UserManager.getInstance().getUser().avatar));
     }
 
     private void checkPermission() {

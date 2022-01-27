@@ -57,7 +57,7 @@ public class ImageLoaderManager {
                 .asBitmap()
                 .load(url)
                 .apply(initCommonRequestOption())
-                .transition(withCrossFade())
+//                .transition(withCrossFade())
                 .into(view);
     }
 

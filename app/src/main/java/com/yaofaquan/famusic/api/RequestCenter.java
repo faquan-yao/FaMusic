@@ -13,7 +13,7 @@ import com.yaofaquan.lib_network.okhttp.request.RequestParams;
 public class RequestCenter {
 
     static class HttpConstants {
-        private static final String ROOT_URL = " https://mock.mengxuegu.com/mock/6190b7cef126df7bfd5b75ab/FaMusic";
+        private static final String ROOT_URL = "http://120.79.203.124:8090/FaMusic";
 
         /**
          * 首页请求接口
@@ -57,8 +57,12 @@ public class RequestCenter {
     public static void login(DisposeDataListener listener) {
 
         RequestParams params = new RequestParams();
-        params.put("mb", "123456789");
-        params.put("pwd", "123456");
+        params.put("username", "faquan.yao");
+        params.put("password", "123456");
         RequestCenter.getRequest(HttpConstants.LOGIN, params, listener, User.class);
+    }
+
+    public static String getMediaUrl(String path) {
+        return HttpConstants.ROOT_URL + path;
     }
 }
