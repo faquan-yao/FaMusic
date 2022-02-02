@@ -23,7 +23,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import com.yaofaquan.lib_audio.R;
 import com.yaofaquan.lib_audio.mediaplayer.core.AudioController;
 import com.yaofaquan.lib_audio.mediaplayer.core.CustomMediaPlayer;
-import com.yaofaquan.lib_audio.mediaplayer.db.GreenDaoHelper;
+import com.yaofaquan.lib_audio.mediaplayer.db.FavouriteGreenDaoHelper;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioFavouriteEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioLoadEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioPauseEvent;
@@ -272,7 +272,7 @@ public class MusicPlayerActivity extends BaseActivity {
     }
 
     private void changeFavouriteStatus(boolean anim) {
-        if (GreenDaoHelper.selectFavourite(mAudioBean) != null) {
+        if (FavouriteGreenDaoHelper.selectFavourite(mAudioBean) != null) {
             mFavouriteView.setImageResource(R.mipmap.audio_aeh);
         } else {
             mFavouriteView.setImageResource(R.mipmap.audio_aef);

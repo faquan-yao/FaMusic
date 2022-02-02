@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.alibaba.arouter'
+    id 'org.greenrobot.greendao'
 }
 
 android {
@@ -56,6 +57,7 @@ dependencies {
     implementation 'com.alibaba:arouter-api:1.5.2'
     annotationProcessor 'com.alibaba:arouter-compiler:1.5.2'
     implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'org.greenrobot:greendao:3.3.0'
     implementation project(path: ':lib_common_ui')
     implementation project(path: '::lib_network')
     implementation project(path: '::lib_image_loader')

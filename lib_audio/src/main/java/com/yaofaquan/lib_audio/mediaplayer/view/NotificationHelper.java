@@ -16,7 +16,7 @@ import com.yaofaquan.lib_audio.R;
 import com.yaofaquan.lib_audio.app.AudioHelper;
 import com.yaofaquan.lib_audio.mediaplayer.core.AudioController;
 import com.yaofaquan.lib_audio.mediaplayer.core.MusicService;
-import com.yaofaquan.lib_audio.mediaplayer.db.GreenDaoHelper;
+import com.yaofaquan.lib_audio.mediaplayer.db.FavouriteGreenDaoHelper;
 import com.yaofaquan.lib_audio.mediaplayer.model.AudioBean;
 import com.yaofaquan.lib_image_loader.app.ImageLoaderManager;
 
@@ -92,7 +92,7 @@ public class NotificationHelper {
         mRemoteViews = new RemoteViews(mPackageName, layoutId);
         mRemoteViews.setTextViewText(R.id.title_view, mAudioBean.name);
         mRemoteViews.setTextViewText(R.id.tip_view, mAudioBean.album);
-        if (GreenDaoHelper.selectFavourite(mAudioBean) != null) {
+        if (FavouriteGreenDaoHelper.selectFavourite(mAudioBean) != null) {
             mRemoteViews.setImageViewResource(R.id.favourite_view, R.mipmap.note_btn_loved);
         } else {
             mRemoteViews.setImageViewResource(R.id.favourite_view, R.mipmap.note_btn_love_white);
@@ -154,7 +154,7 @@ public class NotificationHelper {
             ImageLoaderManager.getInstance()
                     .displayImageForNotification(AudioHelper.getContext(), R.id.image_view,
                             mRemoteViews, mNotification, NOTIFICATION_ID, mAudioBean.albumPic);
-            if (GreenDaoHelper.selectFavourite(mAudioBean) != null) {
+            if (FavouriteGreenDaoHelper.selectFavourite(mAudioBean) != null) {
                 mRemoteViews.setImageViewResource(R.id.favourite_view, R.mipmap.note_btn_love_white);
             } else {
                 mRemoteViews.setImageViewResource(R.id.favourite_view, R.mipmap.note_btn_loved);

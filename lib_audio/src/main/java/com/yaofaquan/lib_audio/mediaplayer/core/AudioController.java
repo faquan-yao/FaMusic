@@ -1,13 +1,8 @@
 package com.yaofaquan.lib_audio.mediaplayer.core;
 
-import android.content.ContentUris;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
 
-import com.yaofaquan.lib_audio.app.AudioHelper;
-import com.yaofaquan.lib_audio.mediaplayer.db.GreenDaoHelper;
+import com.yaofaquan.lib_audio.mediaplayer.db.FavouriteGreenDaoHelper;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioCompleteEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioErrorEvent;
 import com.yaofaquan.lib_audio.mediaplayer.events.AudioFavouriteEvent;
@@ -209,11 +204,11 @@ public class AudioController {
     public void changeFavouriteStatus() {
         AudioBean bean = getNextPlaying();
         synchronized (bean) {
-            if (null != GreenDaoHelper.selectFavourite(bean)) {
-                GreenDaoHelper.removeFavourite(bean);
+            if (null != FavouriteGreenDaoHelper.selectFavourite(bean)) {
+                FavouriteGreenDaoHelper.removeFavourite(bean);
                 EventBus.getDefault().post(new AudioFavouriteEvent(false));
             } else {
-                GreenDaoHelper.addFavourite(bean);
+                FavouriteGreenDaoHelper.addFavourite(bean);
                 EventBus.getDefault().post(new AudioFavouriteEvent(true));
             }
         }

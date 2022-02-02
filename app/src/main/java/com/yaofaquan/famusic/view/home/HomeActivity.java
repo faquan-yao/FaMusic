@@ -194,6 +194,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 if (!UserManager.getInstance().hasLogin()) {
                     LoginActivity.start(this);
                 } else {
+                    onLoginEvent(null);
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
                 }
                 break;

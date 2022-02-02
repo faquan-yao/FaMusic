@@ -31,32 +31,27 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_layout);
-        findViewById(R.id.login_view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onLogin Clicked.");
-                RequestCenter.login(new DisposeDataListener() {
-                    @Override
-                    public void onSuccess(Object responseObj) {
-                        Log.d(TAG, "Login success.");
-                        Log.d(TAG, "LogIn = " + responseObj.toString());
-                        //User user = new Gson().fromJson((String)responseObj, User.class);
-                        //Log.d(TAG, "user = " + user.toString());
-                        User user = (User) responseObj;
-                        UserManager.getInstance().saveUser(user);
-                        EventBus.getDefault().post(new LoginEvent());
-                        finish();
-                    }
+        findViewById(R.id.login_view).setOnClickListener(view -> {
+            Log.d(TAG, "onLogin Clicked.");
+            RequestCenter.login(new DisposeDataListener() {
+                @Override
+                public void onSuccess(Object responseObj) {
+                    Log.d(TAG, "Login success.");
+                    Log.d(TAG, "LogIn = " + responseObj.toString());
+                    User user = (User) responseObj;
+                    UserManager.getInstance().saveUser(user);
+                    EventBus.getDefault().post(new LoginEvent());
+                    finish();
+                }
 
-                    @Override
-                    public void onFailure(Object reasonObj) {
-                        Log.d(TAG, "Login failure.");
-                        Exception e = (Exception) reasonObj;
-                        e.printStackTrace();
-                        Toast.makeText(getApplication(), "登录失败", Toast.LENGTH_SHORT);
-                    }
-                });
-            }
+                @Override
+                public void onFailure(Object reasonObj) {
+                    Log.d(TAG, "Login failure.");
+                    Exception e = (Exception) reasonObj;
+                    e.printStackTrace();
+                    Toast.makeText(getApplication(), "登录失败", Toast.LENGTH_SHORT);
+                }
+            });
         });
     }
 }

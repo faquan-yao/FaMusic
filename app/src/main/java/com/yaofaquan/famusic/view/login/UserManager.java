@@ -1,6 +1,9 @@
 package com.yaofaquan.famusic.view.login;
 
+import com.yaofaquan.famusic.api.RequestCenter;
+import com.yaofaquan.famusic.db.UserGreenDaoHelper;
 import com.yaofaquan.famusic.model.User.User;
+import com.yaofaquan.lib_network.okhttp.listener.DisposeDataListener;
 
 public class UserManager {
     private static UserManager mInstance;
@@ -26,7 +29,7 @@ public class UserManager {
     }
 
     private void saveLocal(User user) {
-
+        UserGreenDaoHelper.saveUser(user);
     }
 
     public User getUser() {
@@ -37,11 +40,19 @@ public class UserManager {
     }
 
     private User getLocalUser() {
-        return null;
+        return UserGreenDaoHelper.getUser();
+    }
+
+    public boolean hasUserInfo() {
+        return getUser() != null;
     }
 
     public boolean hasLogin() {
-        return getUser() != null;
+        if (getUser() == null) {
+            return false;
+        } else {
+            return RequestCenter.testLogin();
+        }
     }
 
     public void clear() {
@@ -50,7 +61,7 @@ public class UserManager {
     }
 
     private void clearLocal() {
-
+        UserGreenDaoHelper.clearUsers();
     }
 
     public boolean hasLogined() {

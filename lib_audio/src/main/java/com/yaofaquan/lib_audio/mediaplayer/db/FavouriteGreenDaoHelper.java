@@ -6,7 +6,7 @@ import com.yaofaquan.lib_audio.app.AudioHelper;
 import com.yaofaquan.lib_audio.mediaplayer.model.AudioBean;
 import com.yaofaquan.lib_audio.mediaplayer.model.Favourite;
 
-public class GreenDaoHelper {
+public class FavouriteGreenDaoHelper {
     private static final String DB_NAME = "famusic_db";
     //数据库管理类，用来创建数据库，升级数据库
     private static DaoMaster.DevOpenHelper mHelper;
